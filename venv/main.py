@@ -28,10 +28,15 @@ class Triangle:
             path = []
         path.append(self.numbers[row_id][item_id])
         if height < self.height - 1:
-            self.look_deeper(height + 1, row_id + 1, item_id, copy(path))
-            self.look_deeper(height + 1, row_id + 1, item_id + 1, copy(path))
+            if sum(path) <= sum(self.possible_paths[0]):
+                self.look_deeper(height + 1, row_id + 1, item_id, copy(path))
+                self.look_deeper(height + 1, row_id + 1, item_id + 1, copy(path))
         else:
-            self.possible_paths.append(path)
+            if sum(path) < sum(self.possible_paths[0]):
+                self.possible_paths = []
+                self.possible_paths.append(path)
+            elif sum(path) == sum(self.possible_paths[0]):
+                self.possible_paths.append(path)
 
     def get_children(self, row_id, item_id):
         return self.numbers[row_id + 1][item_id], self.numbers[row_id + 1][item_id + 1]
