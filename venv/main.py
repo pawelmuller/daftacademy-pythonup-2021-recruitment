@@ -2,6 +2,9 @@ from copy import copy
 from numpy import array, full, inf
 
 
+INPUT_DIRECTORY = 'input'
+
+
 class Triangle:
     def __init__(self, filename=None):
         self.numbers = self.import_numbers(filename) if filename else []
@@ -43,28 +46,19 @@ class Triangle:
 
 
 def main():
-    very_easy = Triangle('input/1-very_easy.txt')
-    print(very_easy.numbers)
-    very_easy.generate_paths_with_Dijkstra()
-    for path in very_easy.possible_paths:
-        print(f'{path} {sum(path)}')
-    print(len(very_easy.possible_paths))
+    triangle_files = ['1-very_easy.txt', '2-easy.txt']
 
-    easy = Triangle('input/2-easy.txt')
-    print(easy.numbers)
-    easy.generate_paths()
-    for path in easy.possible_paths:
-        print(f'{path} {sum(path)}')
-    print(len(easy.possible_paths))
+    # Don't waste your time on this one, this brute-force solution lasts forever
+    # triangle_files = ['1-very_easy.txt', '2-easy.txt', '3-medium.txt']
 
+    for triangle_name in triangle_files:
+        triangle = Triangle(f'{INPUT_DIRECTORY}/{triangle_name}')
+        triangle.generate_paths()
 
-    # Don't waste your time, this brute-force solution lasts forever on this one
-    # medium = Triangle('input/3-medium.txt')
-    # print(medium.numbers)
-    # medium.generate_paths()
-    # for path in medium.possible_paths:
-    #     print(path)
-    # print(len(medium.possible_paths))
+        print(triangle_name)
+        for path in very_easy.possible_paths:
+            print(f'{path} {sum(path)}')
+        print('\n\n')
 
 
 if __name__ == "__main__":
