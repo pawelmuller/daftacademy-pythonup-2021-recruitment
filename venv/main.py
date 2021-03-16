@@ -1,5 +1,5 @@
 from copy import copy
-from numpy import array, full, inf
+from numpy import inf
 
 
 INPUT_DIRECTORY = 'input'
