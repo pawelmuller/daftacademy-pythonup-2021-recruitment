@@ -19,6 +19,19 @@ class Triangle:
             print('Weird things happened')
         return triangle
 
+    def generate_paths(self):
+        self.possible_paths = [[inf]]
+        self.look_deeper()
+
+    def look_deeper(self, height=0, row_id=0, item_id=0, path=None):
+        if path is None:
+            path = []
+        path.append(self.numbers[row_id][item_id])
+        if height < self.height - 1:
+            self.look_deeper(height + 1, row_id + 1, item_id, copy(path))
+            self.look_deeper(height + 1, row_id + 1, item_id + 1, copy(path))
+        else:
+            self.possible_paths.append(path)
 
     def get_children(self, row_id, item_id):
         return self.numbers[row_id + 1][item_id], self.numbers[row_id + 1][item_id + 1]
