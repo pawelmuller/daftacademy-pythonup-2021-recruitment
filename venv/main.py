@@ -50,6 +50,21 @@ def main():
         print(f'{path} {sum(path)}')
     print(len(very_easy.possible_paths))
 
+    easy = Triangle('input/2-easy.txt')
+    print(easy.numbers)
+    easy.generate_paths()
+    for path in easy.possible_paths:
+        print(f'{path} {sum(path)}')
+    print(len(easy.possible_paths))
+
+
+    # Don't waste your time, this brute-force solution lasts forever on this one
+    # medium = Triangle('input/3-medium.txt')
+    # print(medium.numbers)
+    # medium.generate_paths()
+    # for path in medium.possible_paths:
+    #     print(path)
+    # print(len(medium.possible_paths))
 
 
 if __name__ == "__main__":
