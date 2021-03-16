@@ -56,7 +56,7 @@ def main():
         triangle.generate_paths()
 
         print(triangle_name)
-        for path in very_easy.possible_paths:
+        for path in triangle.possible_paths:
             print(f'{path} {sum(path)}')
         print('\n\n')
 
