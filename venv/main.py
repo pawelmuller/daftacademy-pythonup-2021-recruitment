@@ -40,6 +40,11 @@ class Triangle:
 def main():
     very_easy = Triangle('input/1-very_easy.txt')
     print(very_easy.numbers)
+    very_easy.generate_paths_with_Dijkstra()
+    for path in very_easy.possible_paths:
+        print(f'{path} {sum(path)}')
+    print(len(very_easy.possible_paths))
+
 
 
 if __name__ == "__main__":
