@@ -19,3 +19,11 @@ class Triangle:
             print('Weird things happened')
         return triangle
 
+
+def main():
+    very_easy = Triangle('input/1-very_easy.txt')
+    print(very_easy.numbers)
+
+
+if __name__ == "__main__":
+    main()
