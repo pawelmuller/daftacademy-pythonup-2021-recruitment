@@ -20,6 +20,10 @@ class Triangle:
         return triangle
 
 
+    def get_children(self, row_id, item_id):
+        return self.numbers[row_id + 1][item_id], self.numbers[row_id + 1][item_id + 1]
+
+
 def main():
     very_easy = Triangle('input/1-very_easy.txt')
     print(very_easy.numbers)
