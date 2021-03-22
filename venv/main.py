@@ -3,11 +3,15 @@ from numpy import inf
 
 
 INPUT_DIRECTORY = 'input'
+# 283
 
 
 class Triangle:
     def __init__(self, filename=None):
         self.numbers = self.import_numbers(filename) if filename else []
+        self.nodes = self.convert_numbers_to_nodes() if self.numbers else []
+        if self.nodes:
+            self.create_family()
         self.height = len(self.numbers)
         self.head_node = None
         self.possible_paths = []
@@ -21,6 +25,26 @@ class Triangle:
         except TypeError:
             print('Weird things happened')
         return triangle
+
+    def convert_numbers_to_nodes(self):
+        nodes = []
+        for row in self.numbers:
+            new_row = []
+            for value in row:
+                new_row.append(Node(value))
+            nodes.append(new_row)
+
+    def create_family(self):
+        row_index = 0
+        for row in self.nodes:
+            node_index = 0
+            for node in row:
+                left, right = self.get_children(row_index, node_index)
+                node.assign_children(left, right)
+
+
+                node_index += 1
+            row_index += 1
 
     def generate_paths(self):
         self.possible_paths = [[inf]]
@@ -43,6 +67,23 @@ class Triangle:
 
     def get_children(self, row_id, item_id):
         return self.numbers[row_id + 1][item_id], self.numbers[row_id + 1][item_id + 1]
+
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left_child = None
+        self.right_child = None
+        self.left_parent = None
+        self.right_parent = None
+
+    def assign_parents(self, left, right):
+        self.left_parent = left
+        self.right_parent = right
+
+    def assign_children(self, left, right):
+        self.left_child = left
+        self.right_child = right
 
 
 def main():
