@@ -117,19 +117,17 @@ class Node:
 
 
 def main():
-    triangle_files = ['1-very_easy.txt', '2-easy.txt']
+    # triangle_name = '1-very_easy.txt'
+    # triangle_name = '2-easy.txt'
 
-    # Don't waste your time on this one, this brute-force solution lasts forever
-    # triangle_files = ['1-very_easy.txt', '2-easy.txt', '3-medium.txt']
+    triangle_name = '3-medium.txt'
 
-    for triangle_name in triangle_files:
-        triangle = Triangle(f'{INPUT_DIRECTORY}/{triangle_name}')
-        triangle.generate_paths()
+    triangle = Triangle(f'{INPUT_DIRECTORY}/{triangle_name}')
+    triangle.generate_paths()
 
-        print(triangle_name)
-        for path in triangle.possible_paths:
-            print(f'{path} {sum(path)}')
-        print('\n\n')
+    print(triangle_name)
+    print(triangle.head_node.best_path_to_bottom)
+    print(triangle.head_node.best_path_to_bottom_sum)
 
 
 if __name__ == "__main__":
