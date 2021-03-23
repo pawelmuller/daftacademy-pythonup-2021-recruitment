@@ -10,11 +10,10 @@ class Triangle:
     def __init__(self, filename=None):
         self.numbers = self.import_numbers(filename) if filename else []
         self.nodes = self.convert_numbers_to_nodes() if self.numbers else []
-        if self.nodes:
-            self.create_family()
         self.height = len(self.numbers)
         self.head_node = None
-        self.possible_paths = []
+        if self.nodes:
+            self.create_family()
 
     @staticmethod
     def import_numbers(filename):
