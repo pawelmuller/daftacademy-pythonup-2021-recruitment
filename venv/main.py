@@ -103,6 +103,9 @@ class Node:
         self.left_child = left
         self.right_child = right
 
+    def has_children(self):
+        return True if self.left_child is not None and self.right_child is not None else False
+
 
 def main():
     triangle_files = ['1-very_easy.txt', '2-easy.txt']
