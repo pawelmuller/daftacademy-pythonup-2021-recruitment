@@ -27,11 +27,15 @@ class Triangle:
 
     def convert_numbers_to_nodes(self):
         nodes = []
+        row_index = 0
         for row in self.numbers:
             new_row = []
             for value in row:
-                new_row.append(Node(value))
+                node = Node(value, row_index)
+                new_row.append(node)
             nodes.append(new_row)
+            row_index += 1
+        return nodes
 
     def create_family(self):
         row_index = 0
@@ -69,12 +73,14 @@ class Triangle:
 
 
 class Node:
-    def __init__(self, value):
+    def __init__(self, value, height):
         self.value = value
         self.left_child = None
         self.right_child = None
         self.left_parent = None
         self.right_parent = None
+        self.if_visited = False
+        self.height = height
 
     def assign_parents(self, left, right):
         self.left_parent = left
