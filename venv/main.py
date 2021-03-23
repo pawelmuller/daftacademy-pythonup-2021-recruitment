@@ -38,16 +38,29 @@ class Triangle:
         return nodes
 
     def create_family(self):
+        self.head_node = self.nodes[0][0]
         row_index = 0
         for row in self.nodes:
             node_index = 0
             for node in row:
                 left, right = self.get_children(row_index, node_index)
                 node.assign_children(left, right)
-
-
+                left, right = self.get_parents(row_index, node_index)
+                node.assign_parents(left, right)
                 node_index += 1
             row_index += 1
+
+    def get_children(self, row_id, item_id):
+        if row_id == self.height - 1:
+            return None, None
+        return self.nodes[row_id + 1][item_id], self.nodes[row_id + 1][item_id + 1]
+
+    def get_parents(self, row_id, item_id):
+        if row_id == 0:
+            return None, None
+        left = None if item_id == 0 else self.nodes[row_id-1][item_id-1]
+        right = None if item_id == len(self.nodes[row_id]) - 1 else self.nodes[row_id-1][item_id]
+        return left, right
 
     def generate_paths(self):
         self.possible_paths = [[inf]]
