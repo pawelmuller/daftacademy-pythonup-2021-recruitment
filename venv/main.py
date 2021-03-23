@@ -63,31 +63,41 @@ class Triangle:
         return left, right
 
     def generate_paths(self):
-        self.possible_paths = [[inf]]
-        self.look_deeper()
+        return self.look_deeper(self.head_node)
 
-    def look_deeper(self, height=0, row_id=0, item_id=0, path=None):
-        if path is None:
-            path = []
-        path.append(self.numbers[row_id][item_id])
-        if height < self.height - 1:
-            if sum(path) <= sum(self.possible_paths[0]):
-                self.look_deeper(height + 1, row_id + 1, item_id, copy(path))
-                self.look_deeper(height + 1, row_id + 1, item_id + 1, copy(path))
+    def look_deeper(self, node):
+        value = node.value
+
+        if node.if_visited:
+            return node.best_path_to_bottom, node.best_path_to_bottom_sum
         else:
-            if sum(path) < sum(self.possible_paths[0]):
-                self.possible_paths = []
-                self.possible_paths.append(path)
-            elif sum(path) == sum(self.possible_paths[0]):
-                self.possible_paths.append(path)
+            node.if_visited = True
+            if node.has_children():
+                left = self.look_deeper(node.left_child)
+                right = self.look_deeper(node.right_child)
+                node.best_path_to_bottom, node.best_path_to_bottom_sum = self.analyse_results(left, right, node)
+            else:
+                node.best_path_to_bottom_sum = value
+                node.best_path_to_bottom = [value]
+            return node.best_path_to_bottom, node.best_path_to_bottom_sum
 
-    def get_children(self, row_id, item_id):
-        return self.numbers[row_id + 1][item_id], self.numbers[row_id + 1][item_id + 1]
+    @staticmethod
+    def analyse_results(left_result, right_result, node):
+        value = node.value
+        l_path, l_sum = left_result
+        r_path, r_sum = right_result
+        if l_sum < r_sum:
+            return [value] + l_path, l_sum + value
+        else:
+            return [value] + r_path, r_sum + value
 
 
 class Node:
     def __init__(self, value, height):
         self.value = value
+        self.best_path_to_bottom = None
+        self.best_path_to_bottom_sum = inf
+
         self.left_child = None
         self.right_child = None
         self.left_parent = None
