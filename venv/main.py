@@ -6,33 +6,28 @@ INPUT_DIRECTORY = 'input'
 
 class Triangle:
     def __init__(self, filename=None):
-        self.numbers = self.import_numbers(filename) if filename else []
-        self.nodes = self.convert_numbers_to_nodes() if self.numbers else []
-        self.height = len(self.numbers)
+        self.nodes = self.import_triangle(filename) if filename else []
+        self.height = len(self.nodes)
         self.head_node = None
         if self.nodes:
-            self.create_family()
+            self.create_tree()
 
     @staticmethod
-    def import_numbers(filename):
+    def import_triangle(filename):
         with open(filename, 'r') as file:
             lines = [line.strip() for line in file]
         try:
-            triangle = [list(map(int, line.split(' '))) for line in lines]
+            nodes = []
+            line_index = 0
+            for line in lines:
+                temp = []
+                for element in line.split(' '):
+                    new_node = Node(int(element), line_index)
+                    temp.append(new_node)
+                nodes.append(temp)
+                line_index += 1
         except TypeError:
             print('Weird things happened')
-        return triangle
-
-    def convert_numbers_to_nodes(self):
-        nodes = []
-        row_index = 0
-        for row in self.numbers:
-            new_row = []
-            for value in row:
-                node = Node(value, row_index)
-                new_row.append(node)
-            nodes.append(new_row)
-            row_index += 1
         return nodes
 
     def create_family(self):
