@@ -70,7 +70,7 @@ class Triangle:
                 node.best_path_to_bottom, node.best_path_to_bottom_sum = self.choose_better_result(left, right, node)
             else:
                 node.best_path_to_bottom_sum = node.value
-                node.best_path_to_bottom = [node.value]
+                node.best_path_to_bottom = [[node.value]]
         return node.best_path_to_bottom, node.best_path_to_bottom_sum
 
     @staticmethod
@@ -78,10 +78,22 @@ class Triangle:
         value = node.value
         left_path, left_sum = left_result
         right_path, right_sum = right_result
+        if left_sum == right_sum:
+            paths = []
+            for path in left_path + right_path:
+                paths.append([value] + path)
+            return paths, left_sum + value
+
         if left_sum < right_sum:
-            return [value] + left_path, left_sum + value
+            new_path = []
+            for path in left_path:
+                new_path.append([value] + path)
+            return new_path, left_sum + value
         else:
-            return [value] + right_path, right_sum + value
+            new_path = []
+            for path in right_path:
+                new_path.append([value] + path)
+            return new_path, right_sum + value
 
 
 class Node:
@@ -122,16 +134,22 @@ def main():
 
     triangle = Triangle(f'{INPUT_DIRECTORY}/{triangle_name}')
     triangle.generate_paths()
-
     print(triangle_name)
-    print(triangle.head_node.best_path_to_bottom)
-    print(triangle.head_node.best_path_to_bottom_sum)
 
     # For copying purposes:
-    string = ""
-    for digit in triangle.head_node.best_path_to_bottom:
-        string += str(digit)
-    print(string)
+    results = []
+    for path in triangle.head_node.best_path_to_bottom:
+        string = ""
+        for digit in path:
+            string += str(digit)
+        results.append(string)
+
+    # Filtering unique:
+    results = list(dict.fromkeys(results))
+
+    # Results:
+    for result in results:
+        print(result)
 
 
 if __name__ == "__main__":
