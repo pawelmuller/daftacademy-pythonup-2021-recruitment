@@ -2,7 +2,6 @@ from numpy import inf
 
 
 INPUT_DIRECTORY = 'input'
-# 283
 
 
 class Triangle:
@@ -119,7 +118,6 @@ class Node:
 def main():
     # triangle_name = '1-very_easy.txt'
     # triangle_name = '2-easy.txt'
-
     triangle_name = '3-medium.txt'
 
     triangle = Triangle(f'{INPUT_DIRECTORY}/{triangle_name}')
@@ -128,6 +126,12 @@ def main():
     print(triangle_name)
     print(triangle.head_node.best_path_to_bottom)
     print(triangle.head_node.best_path_to_bottom_sum)
+
+    # For copying purposes:
+    string = ""
+    for digit in triangle.head_node.best_path_to_bottom:
+        string += str(digit)
+    print(string)
 
 
 if __name__ == "__main__":
