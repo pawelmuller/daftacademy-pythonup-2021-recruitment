@@ -64,30 +64,26 @@ class Triangle:
         return self.look_deeper(self.head_node)
 
     def look_deeper(self, node):
-        value = node.value
-
-        if node.if_visited:
-            return node.best_path_to_bottom, node.best_path_to_bottom_sum
-        else:
-            node.if_visited = True
+        if not node.has_been_visited():
+            node.visited = True
             if node.has_children():
                 left = self.look_deeper(node.left_child)
                 right = self.look_deeper(node.right_child)
-                node.best_path_to_bottom, node.best_path_to_bottom_sum = self.analyse_results(left, right, node)
+                node.best_path_to_bottom, node.best_path_to_bottom_sum = self.choose_better_result(left, right, node)
             else:
-                node.best_path_to_bottom_sum = value
-                node.best_path_to_bottom = [value]
-            return node.best_path_to_bottom, node.best_path_to_bottom_sum
+                node.best_path_to_bottom_sum = node.value
+                node.best_path_to_bottom = [node.value]
+        return node.best_path_to_bottom, node.best_path_to_bottom_sum
 
     @staticmethod
-    def analyse_results(left_result, right_result, node):
+    def choose_better_result(left_result, right_result, node):
         value = node.value
-        l_path, l_sum = left_result
-        r_path, r_sum = right_result
-        if l_sum < r_sum:
-            return [value] + l_path, l_sum + value
+        left_path, left_sum = left_result
+        right_path, right_sum = right_result
+        if left_sum < right_sum:
+            return [value] + left_path, left_sum + value
         else:
-            return [value] + r_path, r_sum + value
+            return [value] + right_path, right_sum + value
 
 
 class Node:
@@ -100,7 +96,7 @@ class Node:
         self.right_child = None
         self.left_parent = None
         self.right_parent = None
-        self.if_visited = False
+        self.visited = False
         self.height = height
 
     def assign_parents(self, left, right):
@@ -113,6 +109,12 @@ class Node:
 
     def has_children(self):
         return True if self.left_child is not None and self.right_child is not None else False
+
+    def set_visited(self, new_state):
+        self.visited = True if new_state else False
+
+    def has_been_visited(self):
+        return self.visited
 
 
 def main():
