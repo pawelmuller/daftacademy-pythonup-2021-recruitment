@@ -30,16 +30,19 @@ class Triangle:
             print('Weird things happened')
         return nodes
 
-    def create_family(self):
+    def create_tree(self):
         self.head_node = self.nodes[0][0]
         row_index = 0
         for row in self.nodes:
             node_index = 0
             for node in row:
+                # Children:
                 left, right = self.get_children(row_index, node_index)
                 node.assign_children(left, right)
+                # Parents:
                 left, right = self.get_parents(row_index, node_index)
                 node.assign_parents(left, right)
+
                 node_index += 1
             row_index += 1
 
@@ -60,7 +63,7 @@ class Triangle:
 
     def look_deeper(self, node):
         if not node.has_been_visited():
-            node.visited = True
+            node.set_visited(True)
             if node.has_children():
                 left = self.look_deeper(node.left_child)
                 right = self.look_deeper(node.right_child)
